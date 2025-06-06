@@ -91,7 +91,7 @@ def preprocess(text):
         tokens = word_tokenize(text)
         tokens = [word.lower() for word in tokens if word.isalpha()]
         tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words and word not in string.punctuation]
-        tokens = [stemmer.stem(word) for word in tokens]
+        # tokens = [stemmer.stem(word) for word in tokens]
         
         return ' '.join(tokens)
     except Exception as e:
