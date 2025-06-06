@@ -108,7 +108,50 @@ st.markdown("Input a Tweet, and predict the sentiment using the selected model."
 models = load_models()
 
 if models is not None:
-    input_text = st.text_area("Enter Tweet for Prediction:")
+    # Example texts for testing
+    example_texts = {
+        "Positive Example": "I'm having the most amazing day! The weather is beautiful and I just got great news about my job promotion. Life is wonderful! 😊",
+        "Negative Example": "This is the worst day ever. Everything is going wrong and I feel terrible. I can't handle this anymore.",
+        "Neutral Example": "Just finished my morning coffee and reading the news. Time to start working on my project.",
+        "Mixed Sentiment": "The movie had great special effects and amazing acting, but the plot was confusing and the ending was disappointing."
+    }
+    
+    # Create columns for example buttons
+    st.markdown("### Quick Examples:")
+    col1, col2, col3, col4 = st.columns(4)
+    
+    # Initialize session state for input text
+    if 'input_text' not in st.session_state:
+        st.session_state.input_text = ""
+    
+    with col1:
+        if st.button("😊 Positive"):
+            st.session_state.input_text = example_texts["Positive Example"]
+    
+    with col2:
+        if st.button("😞 Negative"):
+            st.session_state.input_text = example_texts["Negative Example"]
+    
+    with col3:
+        if st.button("😐 Neutral"):
+            st.session_state.input_text = example_texts["Neutral Example"]
+    
+    with col4:
+        if st.button("🤔 Mixed"):
+            st.session_state.input_text = example_texts["Mixed Sentiment"]
+    
+    # Text input area with session state
+    input_text = st.text_area(
+        "Enter Tweet for Prediction:",
+        value=st.session_state.input_text,
+        height=100,
+        help="Click one of the example buttons above to fill with sample text, or type your own."
+    )
+    
+    # Clear button
+    if st.button("🗑️ Clear Text"):
+        st.session_state.input_text = ""
+        st.rerun()
 
     model_choice = st.selectbox(
         "Select Model for Prediction:",
