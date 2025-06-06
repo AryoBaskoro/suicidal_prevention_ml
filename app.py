@@ -106,12 +106,32 @@ st.markdown("Input a Tweet, and predict the sentiment using the selected model."
 models = load_models()
 
 if models is not None:
-    # Example texts for testing
+    # Example texts for testing - 4 examples for each mood
     example_texts = {
-        "Positive Example": "I'm having the most amazing day! The weather is beautiful and I just got great news about my job promotion. Life is wonderful! 😊",
-        "Negative Example": "This is the worst day ever. Everything is going wrong and I feel terrible. I can't handle this anymore.",
-        "Neutral Example": "Just finished my morning coffee and reading the news. Time to start working on my project.",
-        "Mixed Sentiment": "The movie had great special effects and amazing acting, but the plot was confusing and the ending was disappointing."
+        "Positive": [
+            "I'm having the most amazing day! The weather is beautiful and I just got great news about my job promotion. Life is wonderful! 😊",
+            "Just finished an incredible workout and feeling absolutely fantastic! My energy levels are through the roof today! 💪✨",
+            "Celebrating my birthday with family and friends! So grateful for all the love and support. Best day ever! 🎉❤️",
+            "Finally got accepted to my dream university! All the hard work has paid off. I'm so excited for this new chapter! 🎓🌟"
+        ],
+        "Negative": [
+            "This is the worst day ever. Everything is going wrong and I feel terrible. I can't handle this anymore.",
+            "Lost my job today and my car broke down. Feeling completely hopeless and don't know what to do next. 😢",
+            "Been struggling with anxiety and depression lately. Every day feels like an uphill battle that I'm losing.",
+            "My relationship ended and I'm heartbroken. Feel like I'm drowning in sadness and can't see any light ahead."
+        ],
+        "Neutral": [
+            "Just finished my morning coffee and reading the news. Time to start working on my project.",
+            "Attended a business meeting this afternoon. Discussed quarterly reports and next month's strategy.",
+            "Went grocery shopping and picked up some vegetables. Planning to cook dinner later tonight.",
+            "Completed my daily commute to work. Traffic was normal, arrived on time as usual."
+        ],
+        "Mixed": [
+            "The movie had great special effects and amazing acting, but the plot was confusing and the ending was disappointing.",
+            "Got a promotion at work which is exciting, but it means more responsibilities and longer hours. Not sure how to feel.",
+            "My vacation was beautiful and relaxing, but now I'm back to reality and dealing with a pile of work emails.",
+            "Love spending time with my family during holidays, but the travel and expenses always stress me out."
+        ]
     }
     
     # Create columns for example buttons
@@ -122,21 +142,28 @@ if models is not None:
     if 'input_text' not in st.session_state:
         st.session_state.input_text = ""
     
+    # Import random for selecting examples
+    import random
+    
     with col1:
         if st.button("😊 Positive"):
-            st.session_state.input_text = example_texts["Positive Example"]
+            st.session_state.input_text = random.choice(example_texts["Positive"])
+            st.rerun()
     
     with col2:
         if st.button("😞 Negative"):
-            st.session_state.input_text = example_texts["Negative Example"]
+            st.session_state.input_text = random.choice(example_texts["Negative"])
+            st.rerun()
     
     with col3:
         if st.button("😐 Neutral"):
-            st.session_state.input_text = example_texts["Neutral Example"]
+            st.session_state.input_text = random.choice(example_texts["Neutral"])
+            st.rerun()
     
     with col4:
         if st.button("🤔 Mixed"):
-            st.session_state.input_text = example_texts["Mixed Sentiment"]
+            st.session_state.input_text = random.choice(example_texts["Mixed"])
+            st.rerun()
     
     # Text input area with session state
     input_text = st.text_area(
