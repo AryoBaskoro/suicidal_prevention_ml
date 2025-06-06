@@ -32,9 +32,6 @@ with open('naive_bayes_model.pkl', 'rb') as f:
 with open('logistic_regression_model.pkl', 'rb') as f:
     logreg = pickle.load(f)
 
-with open('random_forest_model.pkl', 'rb') as f:
-    random_forest = pickle.load(f)
-
 with open('svm_model.pkl', 'rb') as f:
     svm_linear = pickle.load(f)
 
