@@ -13,12 +13,15 @@ from scipy.sparse import hstack
 import xgboost as xgb
 import os
 
+# Configure NLTK data path first
 nltk_data_dir = './nltk_data'
 if not os.path.exists(nltk_data_dir):
     os.makedirs(nltk_data_dir)
 
+# Add the path before downloading
 nltk.data.path.append(nltk_data_dir)
 
+# Download NLTK data
 try:
     nltk.download('punkt', download_dir=nltk_data_dir, quiet=True)
     nltk.download('stopwords', download_dir=nltk_data_dir, quiet=True)  
@@ -27,12 +30,18 @@ try:
 except Exception as e:
     st.error(f"Error downloading NLTK data: {e}")
 
+# Load models with error handling
 @st.cache_resource
 def load_models():
     models = {}
     try:
+        # Load XGBoost model with compatibility fix
         with open('xgboost_model.pkl', 'rb') as f:
-            models['xgb_model'] = pickle.load(f)
+            xgb_model = pickle.load(f)
+            # Fix for XGBoost version compatibility
+            if not hasattr(xgb_model, 'feature_types'):
+                xgb_model.feature_types = None
+            models['xgb_model'] = xgb_model
         
         with open('tfidf_vectorizer_ml.pkl', 'rb') as f:
             models['tfidf'] = pickle.load(f)
@@ -89,11 +98,13 @@ def preprocess(text):
         return ' '.join(tokens)
     except Exception as e:
         st.error(f"Error in preprocessing: {e}")
-        return text  
+        return text  # Return original text if preprocessing fails
 
+# Streamlit UI
 st.title("Sentiment Analysis with Machine Learning Models")
 st.markdown("Input a Tweet, and predict the sentiment using the selected model.")
 
+# Load models
 models = load_models()
 
 if models is not None:
@@ -117,7 +128,8 @@ if models is not None:
                 num_features = hstack([tfidf_vectorized, num_features]) 
 
                 if model_choice == "XGBoost":
-                    pred = models['xgb_model'].predict(num_features)
+                    # Convert sparse matrix to dense for XGBoost compatibility
+                    pred = models['xgb_model'].predict(num_features.toarray())
                     model_name = "XGBoost"
                 elif model_choice == "Naive Bayes":
                     pred = models['nb_model'].predict(num_features)
@@ -143,7 +155,7 @@ if models is not None:
                 top_words = list(sorted_word_tfidf.keys())[:10]
                 top_values = list(sorted_word_tfidf.values())[:10]
 
-                if top_words:  
+                if top_words:  # Only create plot if there are words to display
                     fig, ax = plt.subplots(figsize=(10, 6))
                     ax.barh(top_words, top_values)
                     ax.set_xlabel('TF-IDF Value')
