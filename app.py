@@ -10,12 +10,19 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from scipy.sparse import hstack
-
 import xgboost as xgb
+import os
 
-nltk.download('punkt', download_dir='./nltk_data')
-nltk.download('stopwords', download_dir='./nltk_data')
-nltk.download('wordnet', download_dir='./nltk_data')
+nltk_data_dir = './nltk_data'
+
+if not os.path.exists(nltk_data_dir):
+    os.makedirs(nltk_data_dir)
+
+nltk.download('punkt', download_dir=nltk_data_dir)
+nltk.download('stopwords', download_dir=nltk_data_dir)
+nltk.download('wordnet', download_dir=nltk_data_dir)
+
+nltk.data.path.append(nltk_data_dir)
 
 with open('xgboost_model.pkl', 'rb') as f:
     xgb_model = pickle.load(f)
@@ -76,7 +83,7 @@ input_text = st.text_area("Enter Tweet for Prediction:")
 
 model_choice = st.selectbox(
     "Select Model for Prediction:",
-    ["XGBoost", "Naive Bayes", "Logistic Regression", "Random Forest", "Linear SVM"]
+    ["XGBoost", "Naive Bayes", "Logistic Regression", "Linear SVM"]
 )
 
 if st.button("Check Tweet Sentiment"):
