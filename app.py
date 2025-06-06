@@ -91,7 +91,7 @@ def preprocess(text):
         tokens = word_tokenize(text)
         tokens = [word.lower() for word in tokens if word.isalpha()]
         tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words and word not in string.punctuation]
-        tokens = [stemmer.stem(word) for word in tokens]
+        # tokens = [stemmer.stem(word) for word in tokens]
         
         return ' '.join(tokens)
     except Exception as e:
@@ -106,7 +106,6 @@ st.markdown("Input a Tweet, and predict the sentiment using the selected model."
 models = load_models()
 
 if models is not None:
-    # Example texts for testing - 4 examples for each mood
     example_texts = {
         "Positive": [
             "I'm having the most amazing day! The weather is beautiful and I just got great news about my job promotion. Life is wonderful! 😊",
@@ -165,7 +164,6 @@ if models is not None:
             st.session_state.input_text = random.choice(example_texts["Mixed"])
             st.rerun()
     
-    # Text input area with session state
     input_text = st.text_area(
         "Enter Tweet for Prediction:",
         value=st.session_state.input_text,
@@ -173,7 +171,6 @@ if models is not None:
         help="Click one of the example buttons above to fill with sample text, or type your own."
     )
     
-    # Clear button
     if st.button("🗑️ Clear Text"):
         st.session_state.input_text = ""
         st.rerun()
