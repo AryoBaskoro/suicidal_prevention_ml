@@ -13,6 +13,9 @@ from scipy.sparse import hstack
 
 import xgboost as xgb
 
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 with open('xgboost_model.pkl', 'rb') as f:
     xgb_model = pickle.load(f)
