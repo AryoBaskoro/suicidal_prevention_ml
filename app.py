@@ -4,8 +4,6 @@ import pandas as pd
 import re
 import string
 import nltk
-import matplotlib.pyplot as plt
-import seaborn as sns
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer, PorterStemmer
@@ -189,6 +187,7 @@ if models is not None:
                 st.subheader("Preprocessed Text:")
                 st.write(preprocessed_text)
                 
+                # TF-IDF Analysis
                 tfidf_values = tfidf_vectorized.toarray()[0]
                 tfidf_features = models['tfidf'].get_feature_names_out()
 
@@ -198,13 +197,57 @@ if models is not None:
                 top_words = list(sorted_word_tfidf.keys())[:10]
                 top_values = list(sorted_word_tfidf.values())[:10]
 
-                if top_words:  # Only create plot if there are words to display
-                    fig, ax = plt.subplots(figsize=(10, 6))
-                    ax.barh(top_words, top_values)
-                    ax.set_xlabel('TF-IDF Value')
-                    ax.set_title('Top 10 TF-IDF Words')
-                    plt.tight_layout()
-                    st.pyplot(fig)
+                if top_words:  # Only create visualization if there are words to display
+                    st.subheader("Top 10 TF-IDF Words")
+                    
+                    # Create DataFrame for Streamlit chart
+                    chart_data = pd.DataFrame({
+                        'Words': top_words,
+                        'TF-IDF Score': top_values
+                    })
+                    
+                    # Display as horizontal bar chart using Streamlit
+                    st.bar_chart(
+                        chart_data.set_index('Words'),
+                        height=400,
+                        use_container_width=True
+                    )
+                    
+                    # Alternative: Display as a table with color coding
+                    st.subheader("TF-IDF Scores Table")
+                    
+                    # Create a styled dataframe
+                    styled_df = chart_data.copy()
+                    styled_df['TF-IDF Score'] = styled_df['TF-IDF Score'].round(4)
+                    styled_df = styled_df.reset_index(drop=True)
+                    styled_df.index = styled_df.index + 1  # Start index from 1
+                    
+                    # Display with metrics for top 3 words
+                    col1, col2, col3 = st.columns(3)
+                    if len(top_words) >= 3:
+                        with col1:
+                            st.metric(
+                                label=f"🥇 Top Word: {top_words[0]}", 
+                                value=f"{top_values[0]:.4f}"
+                            )
+                        with col2:
+                            st.metric(
+                                label=f"🥈 Second: {top_words[1]}", 
+                                value=f"{top_values[1]:.4f}"
+                            )
+                        with col3:
+                            st.metric(
+                                label=f"🥉 Third: {top_words[2]}", 
+                                value=f"{top_values[2]:.4f}"
+                            )
+                    
+                    # Display full table
+                    st.dataframe(
+                        styled_df,
+                        use_container_width=True,
+                        hide_index=False
+                    )
+                    
                 else:
                     st.warning("No significant words found for TF-IDF visualization.")
 
