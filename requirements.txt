@@ -1,8 +1,8 @@
 streamlit
-xgboost==1.7.6
-scipy==1.10.0
-nltk==3.8.1
-matplotlib==3.7.1
-seaborn==0.11.2
-pandas==1.5.3
-scikit-learn==1.2.0
+xgboost
+scipy
+nltk
+matplotlib
+seaborn
+pandas
+scikit-learn
