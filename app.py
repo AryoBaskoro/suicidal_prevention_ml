@@ -114,7 +114,8 @@ if models is not None:
             "Sometimes I feel like ending it all. What's the point?",
             "It ends tonight.I can't do it anymore. I quit.",
             "Is it worth it?Is all the trouble, work and anxiety really worth living for.",
-            "do you ever feel empty and you had to pick a number from 15 depending how you feel about it i could write my funeral speech now but what is the point in afew years i would be forgotten anyway"
+            "do you ever feel empty and you had to pick a number from 15 depending how you feel about it i could write my funeral speech now but what is the point in afew years i would be forgotten anyway",
+            "Lately I just feel like garbage. I havent left the house much in like 2 weeks, and I've been missing class. It all"
         ],
         "Neutral": [
             "Everything feels fine, just a normal day with coffee and work.",
@@ -130,7 +131,11 @@ if models is not None:
             "I found out that in times where my social anxiety was really bad this would also heavily influence my own self confidence and self worth. I would beat myself up for everything I did which made it even harder to overcome my social anxiety. What do you think about this?",
             "I feel like my intrusive thoughts are winning right now, and I feel bad for every thought. I feel like a terrible person and I need to remove myself from everyone because I'm a terrible person and no one would want me around. My inner voice is very mean and I just don't know anymore. I'm just so tired of it all.",
             "The girl that I fell for 10 years ago also suffers from anxiety. I haven't got the guts to let her know how I feel about her. My anxiety recently developed into agoraphobia. I've been improving but I still can't travel far. That kind of demoralized me. My question is: Can a relationship still work if both suffer from anxiety?",
-            "Lately I just feel like garbage. I havent left the house much in like 2 weeks, and I've been missing class. It all feels too overwhelming for me, but being at home makes me feel like trash too...I cant win. I cant sleep right either. I wake up every other hour and im so tired...."
+            "Lately I just feel like garbage. I havent left the house much in like 2 weeks, and I've been missing class. It all feels too overwhelming for me, but being at home makes me feel like trash too...I cant win. I cant sleep right either. I wake up every other hour and im so tired....",
+            "i have been struggling with health anxiety and general spiraling lately, along with a host of other mental health issues",
+            "I found out that in times where my social anxiety was really bad this would also heavily influence my own self",
+            "I feel like my intrusive thoughts are winning right now, and I feel bad for every thought. I feel like a terrible",
+            "The girl that I fell for 10 years ago also suffers from anxiety. I haven't got the guts to let her know how I feel about her. My anxiety recently developed i: Anxiety"
         ]
     }
     
