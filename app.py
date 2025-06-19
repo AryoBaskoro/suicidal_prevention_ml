@@ -106,37 +106,37 @@ st.markdown("Input a Tweet, and predict the sentiment using the selected model."
 models = load_models()
 
 if models is not None:
-    # Example texts for testing - 4 examples for each mood
     example_texts = {
-        "Positive": [
-            "I'm having the most amazing day! The weather is beautiful and I just got great news about my job promotion. Life is wonderful! 😊",
-            "Just finished an incredible workout and feeling absolutely fantastic! My energy levels are through the roof today! 💪✨",
-            "Today marks my 25th birthday and I'm having the most magical celebration surrounded by everyone I love! My family surprised me with a party that brought tears of happiness to my eyes. All my closest friends traveled from different cities just to be here with me. The decorations are absolutely beautiful, the cake is delicious, and the love in this room is overwhelming in the best possible way. I've received so many heartfelt messages, thoughtful gifts, and warm hugs that my heart feels like it might burst from joy. Looking back on this past year, I've grown so much as a person and achieved things I never thought possible. I'm entering this new year of life with so much excitement and gratitude. Best birthday ever and I'll remember this day forever! 🎂🎈❤️🥳",
-            "Finally got accepted to my dream university! All the hard work has paid off. I'm so excited for this new chapter! 🎓🌟"
-        ],
         "Negative": [
-            "The darkness is consuming me again and I can't find a way out. Every morning feels like climbing an impossible mountain just to get out of bed. I'm so tired of fighting this battle in my head every single day.",
-            "I don't see the point anymore. Everything feels meaningless and I'm just a burden to everyone around me. Maybe they'd be better off without me here. The pain never stops and I'm exhausted from pretending I'm okay.",
-            "My borderline personality disorder is destroying every relationship I have. One minute I love someone desperately, the next I hate them with equal intensity. I can't control these emotions and it's tearing me apart. People always leave in the end anyway.",
-            "Living with severe depression feels like drowning in an ocean of darkness with no hope of reaching the surface. I've been struggling for months now, and despite therapy and medication, some days the weight of existence feels unbearable. Simple tasks that others take for granted - showering, eating, even breathing - require tremendous effort that I barely have left in me. I used to be someone who could handle challenges, but now I feel like I'm losing a battle against my own mind every single day. The worst part is the isolation and emptiness that follows me everywhere, making me question if there's any purpose to continuing this fight. My family tries to understand, but I can see the worry and helplessness in their eyes when they look at me, which only adds to my guilt about being such a burden. I'm tired of putting on a mask and pretending everything is fine when inside I'm completely falling apart. 😞💔🌧️"
+            "I can't sleep at night and my thoughts won't stop racing.",
+            "Lately, I've been feeling so numb and disconnected from everything.",
+            "I'm afraid to go outside. The world feels overwhelming.",
+            "Sometimes I feel like ending it all. What's the point?",
+            "It ends tonight.I can't do it anymore. I quit.",
+            "Is it worth it?Is all the trouble, work and anxiety really worth living for.",
+            "do you ever feel empty and you had to pick a number from 15 depending how you feel about it i could write my funeral speech now but what is the point in afew years i would be forgotten anyway"
         ],
         "Neutral": [
-            "Just finished my morning coffee and reading the news. Time to start working on my project.",
-            "Attended our monthly department meeting this afternoon where we discussed the third quarter performance metrics and outlined our strategy for the next fiscal period. The presentation covered various aspects of our current projects, budget allocations, and timeline adjustments that need to be implemented. We reviewed the client feedback from recent deliverables and identified areas where we can improve our processes. The team leads provided updates on their respective areas of responsibility, and we scheduled follow-up meetings for more detailed discussions on specific initiatives. Overall, it was a productive session that covered all the necessary business items on our agenda. I took notes on the action items assigned to my department and will need to coordinate with other team members to ensure we meet our deadlines. Standard business operations continuing as expected. 📊💼📋",
-            "Went grocery shopping and picked up some vegetables. Planning to cook dinner later tonight.",
-            "Completed my daily commute to the office this morning, taking the usual route through downtown traffic. Left the house at 7:30 AM and arrived at the office parking garage by 8:15 AM, which is pretty standard timing for a regular workday. Traffic was moving at a reasonable pace with no major delays or accidents reported on the radio. I listened to a podcast about productivity tips during the drive, which was moderately interesting and helped pass the time. The weather was clear and visibility was good, making for safe driving conditions. Once I arrived at the office, I grabbed my laptop bag and headed up to the third floor where my desk is located. Started the workday by checking emails and reviewing my schedule for the day. Pretty routine morning overall, nothing out of the ordinary to report. 🚗🏢⏰"
+            "Everything feels fine, just a normal day with coffee and work.",
+            "Feeling a bit stressed, but I think I can manage it with deep breaths.",
+            "How painful is it and what are the chances of dying from it"
         ],
         "Mixed": [
-            "Started therapy for my anxiety disorder today and I have complicated feelings about it. Part of me is hopeful that this might finally help me manage these overwhelming panic attacks that have been controlling my life. But I'm also terrified of opening up about my darkest thoughts.",
-            "My psychiatrist adjusted my antidepressant medication this week. I'm grateful to have access to treatment and I know it takes time to work, but the side effects are making me feel worse in some ways. I'm caught between hope for improvement and frustration with the process.",
-            "Finally told my family about my eating disorder and self-harm struggles. Their support means everything to me and I feel relieved to not carry this secret alone anymore. But I'm also scared about disappointing them and worried they'll watch my every move now. Recovery feels possible and impossible at the same time.",
-            "I've been managing my bipolar disorder for two years now, and today perfectly captures the complexity of living with this condition. This morning I woke up feeling incredibly energetic and optimistic - I cleaned my entire apartment, started three new creative projects, and felt like I could conquer the world. The hypomanic episodes can feel amazing in the moment, like I'm finally the person I'm supposed to be, productive and full of ideas and ambition. But by this afternoon, I could feel the familiar crash beginning as my mood started to shift downward. Now I'm sitting here feeling exhausted and empty, looking at all the unfinished projects I started with such enthusiasm just hours ago. It's frustrating because I know this pattern so well, yet I still get caught up in the highs and devastated by the lows. My medication helps stabilize me most of the time, and my therapist has given me tools to recognize these mood swings, but some days I still feel like I'm on an emotional roller coaster that I can't get off. I'm grateful for the treatment and support I have, but I also mourn the person I might have been without this constant battle in my brain. 🎢💊😔✨"
+            "I'm trying to stay strong, but my mood swings are exhausting.",
+            "My mind jumps from one idea to another. I can't stay still.",
+            "I don't even recognize myself anymore. Who am I becoming?",
+            "I heard from my therapist that anger and depression often go hand in hand, but I feel like it's kinda going off the rails for me. does anyone have more experience with this?",
+            "i have been struggling with health anxiety and general spiraling lately, along with a host of other mental health issues. my psychiatrist recommended i try getting back on an antidepressant as they can sometimes help with anxiety (and my healthy dose of depression needs to be managed). we are thinking of prozac since i responded well to it when i was younger..",
+            "I found out that in times where my social anxiety was really bad this would also heavily influence my own self confidence and self worth. I would beat myself up for everything I did which made it even harder to overcome my social anxiety. What do you think about this?",
+            "I feel like my intrusive thoughts are winning right now, and I feel bad for every thought. I feel like a terrible person and I need to remove myself from everyone because I'm a terrible person and no one would want me around. My inner voice is very mean and I just don't know anymore. I'm just so tired of it all.",
+            "The girl that I fell for 10 years ago also suffers from anxiety. I haven't got the guts to let her know how I feel about her. My anxiety recently developed into agoraphobia. I've been improving but I still can't travel far. That kind of demoralized me. My question is: Can a relationship still work if both suffer from anxiety?",
+            "Lately I just feel like garbage. I havent left the house much in like 2 weeks, and I've been missing class. It all feels too overwhelming for me, but being at home makes me feel like trash too...I cant win. I cant sleep right either. I wake up every other hour and im so tired...."
         ]
     }
     
-    # Create columns for example buttons
+    # Create columns for example buttons (removed positive)
     st.markdown("### Quick Examples:")
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
     
     # Initialize session state for input text
     if 'input_text' not in st.session_state:
@@ -146,21 +146,16 @@ if models is not None:
     import random
     
     with col1:
-        if st.button("😊 Positive"):
-            st.session_state.input_text = random.choice(example_texts["Positive"])
-            st.rerun()
-    
-    with col2:
         if st.button("😞 Negative"):
             st.session_state.input_text = random.choice(example_texts["Negative"])
             st.rerun()
     
-    with col3:
+    with col2:
         if st.button("😐 Neutral"):
             st.session_state.input_text = random.choice(example_texts["Neutral"])
             st.rerun()
     
-    with col4:
+    with col3:
         if st.button("🤔 Mixed"):
             st.session_state.input_text = random.choice(example_texts["Mixed"])
             st.rerun()
