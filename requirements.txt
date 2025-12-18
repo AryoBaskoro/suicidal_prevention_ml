@@ -6,3 +6,6 @@ matplotlib
 seaborn
 pandas
 scikit-learn
+tensorflow
+pickle5
+numpy
