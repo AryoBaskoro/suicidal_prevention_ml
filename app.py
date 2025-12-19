@@ -6,6 +6,7 @@ import re
 import string
 import nltk
 import os
+import random
 import tensorflow as tf
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -186,21 +187,17 @@ if models:
 
     def set_text(txt): st.session_state.user_input = txt
     
-    with col1:
-        st.markdown("**😊 Normal Examples:**")
-        for txt in normal_example_texts:
-            if st.button(txt, key=txt):
-                set_text(txt)
-    with col2:
-        st.markdown("**😟 Negative Examples:**")
-        for txt in negative_example_texts:
-            if st.button(txt, key=txt):
-                set_text(txt)
-    with col3:
-        st.markdown("**🚨 Critical Examples:**")
-        for txt in critical_example_texts:
-            if st.button(txt, key=txt):
-                set_text(txt)
+    with col1: 
+        if st.button("🙂 Example: Normal"): 
+            set_text(random.choice(normal_example_texts))
+
+    with col2: 
+        if st.button("😟 Example: Negative"): 
+            set_text(random.choice(negative_example_texts))
+
+    with col3: 
+        if st.button("🆘 Example: Critical"): 
+            set_text(random.choice(critical_example_texts))
 
     input_text = st.text_area(
         "Enter your text here (English):", 
