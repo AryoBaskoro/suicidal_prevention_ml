@@ -163,52 +163,44 @@ if models:
     st.title("🧠 Sentimind: Mental Health Analyzer")
     st.markdown("#### How are you feeling today? Let's analyze your thoughts.")
 
-    examples = {
-        "Normal": [
-            "Everything feels fine, just a normal day with coffee and work.",
-            "I am planning to go to the movies this weekend with my friends.",
-            "The weather is really nice today, maybe I'll go for a jog."
-        ],
-        "Negative": [
-            "I can't sleep at night and my thoughts won't stop racing.",
-            "I feel so overwhelmed with my workload, it's suffocating.",
-            "Nothing seems to make me happy anymore, I'm just tired of everything."
-        ],
-        "Critical": [
-            "Sometimes I feel like ending it all. What's the point?",
-            "I feel like a burden to everyone, the world would be better without me.",
-            "I have been thinking about ways to hurt myself, I can't take this pain."
-        ]
-    }
+    normal_example_texts = [
+        "Everything feels fine, just a normal day with coffee and work.",
+        "I am happy with my life and enjoy spending time with friends.",
+        "I feel relaxed and content with my current situation.",
+    ]
 
-    if 'user_input' not in st.session_state: 
-        st.session_state.user_input = ""
+    negative_example_texts = [
+        "I feel sad and unmotivated, nothing seems to go right.",
+        "I'm constantly worried about everything and it's exhausting.",
+        "I feel overwhelmed and stressed out with my responsibilities.",
+    ]
 
-    def set_text(txt): 
-        st.session_state.user_input = txt
+    critical_example_texts = [
+        "I have been thinking about harming myself lately.",
+        "I feel like I can't go on anymore and want to end my life.",
+        "I hear voices telling me to hurt myself.",
+    ]
+    
+    col1, col2, col3 = st.columns([1,1,1])
+    if 'user_input' not in st.session_state: st.session_state.user_input = ""
 
-    col1, col2, col3 = st.columns([1, 1, 1])
-
+    def set_text(txt): st.session_state.user_input = txt
+    
     with col1:
-        st.markdown("### 🙂 Normal")
-        for i, text in enumerate(examples["Normal"]):
-            if st.button(f"Option {i+1}", key=f"norm_{i}", help=text):
-                set_text(text)
-
+        st.markdown("**😊 Normal Examples:**")
+        for txt in normal_example_texts:
+            if st.button(txt, key=txt):
+                set_text(txt)
     with col2:
-        st.markdown("### 😟 Negative")
-        for i, text in enumerate(examples["Negative"]):
-            if st.button(f"Option {i+1}", key=f"neg_{i}", help=text):
-                set_text(text)
-
+        st.markdown("**😟 Negative Examples:**")
+        for txt in negative_example_texts:
+            if st.button(txt, key=txt):
+                set_text(txt)
     with col3:
-        st.markdown("### 🆘 Critical")
-        for i, text in enumerate(examples["Critical"]):
-            if st.button(f"Option {i+1}", key=f"crit_{i}", help=text):
-                set_text(text)
-
-    st.divider()
-    st.text_area("Input Text:", value=st.session_state.user_input, height=100)
+        st.markdown("**🚨 Critical Examples:**")
+        for txt in critical_example_texts:
+            if st.button(txt, key=txt):
+                set_text(txt)
 
     input_text = st.text_area(
         "Enter your text here (English):", 
