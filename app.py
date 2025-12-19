@@ -166,20 +166,17 @@ if models:
 
     normal_example_texts = [
         "Everything feels fine, just a normal day with coffee and work.",
-        "I am happy with my life and enjoy spending time with friends.",
         "I feel relaxed and content with my current situation.",
     ]
 
     negative_example_texts = [
-        "I feel sad and unmotivated, nothing seems to go right.",
+        "I can't sleep at night and my thoughts won't stop racing.",
         "I'm constantly worried about everything and it's exhausting.",
-        "I feel overwhelmed and stressed out with my responsibilities.",
     ]
 
     critical_example_texts = [
-        "I have been thinking about harming myself lately.",
         "I feel like I can't go on anymore and want to end my life.",
-        "I hear voices telling me to hurt myself.",
+        "Sometimes I feel like ending it all. What's the point?",
     ]
     
     col1, col2, col3 = st.columns([1,1,1])
