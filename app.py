@@ -15,7 +15,6 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import xgboost as xgb # Pastikan xgboost terinstall
 
-# --- PAGE CONFIGURATION (Must be the first Streamlit command) ---
 st.set_page_config(
     page_title="Sentimind - Mental Health Analyzer",
     page_icon="🧠",
@@ -23,7 +22,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- CUSTOM CSS FOR BETTER UI ---
 st.markdown("""
 <style>
     .main {
@@ -58,7 +56,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- NLTK SETUP ---
 nltk_data_dir = './nltk_data'
 if not os.path.exists(nltk_data_dir):
     os.makedirs(nltk_data_dir)
@@ -70,7 +67,6 @@ try:
 except Exception as e:
     st.error(f"Error downloading NLTK data: {e}")
 
-# --- CONSTANTS ---
 LSTM_MAX_LEN = 200 # Sesuaikan dengan maxlen saat training LSTM Anda
 LSTM_LABEL_MAP = {
     0: 'Normal',
@@ -82,7 +78,6 @@ LSTM_LABEL_MAP = {
     6: 'Personality disorder'
 }
 
-# --- LOADER FUNCTION ---
 @st.cache_resource
 def load_models():
     models = {}
@@ -100,12 +95,11 @@ def load_models():
         with open('logistic_regression_model.pkl', 'rb') as f: models['logreg'] = pickle.load(f)
         with open('svm_model.pkl', 'rb') as f: models['svm_linear'] = pickle.load(f)
         
-        # 2. Load LSTM Models
         lstm_path = os.path.join('LSTM', 'lstm_suicidal_nlp_no_optimizer.h5')
         tokenizer_path = os.path.join('LSTM', 'lstm_tokenizer.pickle')
         
         if os.path.exists(lstm_path) and os.path.exists(tokenizer_path):
-            models['lstm_model'] = load_model(lstm_path, compile=False) # compile=False for faster inference
+            models['lstm_model'] = load_model(lstm_path, compile=False) 
             with open(tokenizer_path, 'rb') as f:
                 models['lstm_tokenizer'] = pickle.load(f)
         else:
@@ -116,7 +110,6 @@ def load_models():
         st.error(f"Error loading models: {e}")
         return None
 
-# --- PREPROCESSING FUNCTIONS ---
 def count_sentences(text):
     sentences = re.split(r'[.!?]', text)
     return len([s.strip() for s in sentences if s.strip()])
@@ -124,13 +117,12 @@ def count_sentences(text):
 def clean_text(text):
     text = str(text).lower().strip()
     text = re.sub(r"http\S+|www\.\S+", "", text)
-    text = re.sub(r"\S+@\S+", "", text) # Remove emails
-    text = re.sub(r"[^a-z\s.,!?']", '', text) # Keep basic punctuation for context
+    text = re.sub(r"\S+@\S+", "", text) 
+    text = re.sub(r"[^a-z\s.,!?']", '', text) 
     text = re.sub(r'\s+', ' ', text)
     return text
 
 def preprocess_ml(text):
-    """Heavy preprocessing specifically for ML models (Stemming/Lemmatization)"""
     try:
         stop_words = set(stopwords.words('english'))
         lemmatizer = WordNetLemmatizer()
@@ -143,11 +135,9 @@ def preprocess_ml(text):
     except:
         return text
 
-# --- MAIN APP LOGIC ---
 models = load_models()
 
 if models:
-    # --- SIDEBAR ---
     with st.sidebar:
         st.image("https://cdn-icons-png.flaticon.com/512/3062/3062331.png", width=80)
         st.title("Settings")
@@ -171,11 +161,9 @@ if models:
         st.markdown("### About")
         st.caption("This application uses Natural Language Processing to detect mental health status from text.")
 
-    # --- MAIN CONTENT ---
     st.title("🧠 Sentimind: Mental Health Analyzer")
     st.markdown("#### How are you feeling today? Let's analyze your thoughts.")
 
-    # Sample Data Buttons
     example_texts = [
         "Everything feels fine, just a normal day with coffee and work.",
         "I can't sleep at night and my thoughts won't stop racing.",
@@ -194,7 +182,6 @@ if models:
     with col3: 
         if st.button("🆘 Example: Critical"): set_text(example_texts[2])
 
-    # Text Input
     input_text = st.text_area(
         "Enter your text here (English):", 
         value=st.session_state.user_input, 
@@ -202,7 +189,6 @@ if models:
         placeholder="Type something here..."
     )
 
-    # Prediction Logic
     if st.button("🔍 Analyze Sentiment"):
         if not input_text.strip():
             st.warning("Please enter some text first.")
@@ -210,29 +196,25 @@ if models:
             with st.spinner('Analyzing patterns...'):
                 cleaned_text = clean_text(input_text)
                 
-                # --- LSTM PREDICTION ---
                 if selected_model == "LSTM":
                     if 'lstm_model' in models:
                         # 1. Tokenize & Pad
                         seq = models['lstm_tokenizer'].texts_to_sequences([cleaned_text])
                         padded = pad_sequences(seq, maxlen=LSTM_MAX_LEN)
                         
-                        # 2. Predict
                         pred_prob = models['lstm_model'].predict(padded)
                         pred_idx = np.argmax(pred_prob)
                         final_label = LSTM_LABEL_MAP[pred_idx]
                         confidence = np.max(pred_prob) * 100
                         
-                        # Display Results
                         st.markdown("---")
                         c1, c2 = st.columns([2, 3])
                         
                         with c1:
-                            # Color coding based on severity
                             color_class = "status-normal"
                             if final_label in ['Anxiety', 'Depression', 'Bipolar', 'Personality disorder']:
                                 color_class = "status-warning"
-                            elif final_label in ['Suicidal', 'Stress']: # Adjust based on your logic
+                            elif final_label in ['Suicidal', 'Stress']: 
                                 color_class = "status-danger"
                                 
                             st.markdown(f"""
@@ -245,7 +227,6 @@ if models:
                             
                         with c2:
                             st.subheader("Probability Distribution")
-                            # Create DataFrame for Chart
                             probs_df = pd.DataFrame({
                                 'Status': list(LSTM_LABEL_MAP.values()),
                                 'Probability': pred_prob[0]
@@ -255,18 +236,14 @@ if models:
                     else:
                         st.error("LSTM Model not loaded properly.")
 
-                # --- ML PREDICTION ---
                 else:
-                    # ML Specific Preprocessing
                     preprocessed_text = preprocess_ml(cleaned_text)
                     
-                    # Feature Engineering
                     tfidf_vec = models['tfidf'].transform([preprocessed_text])
                     tfidf_vec1 = models['tfidf1'].transform([preprocessed_text])
                     num_feats = hstack([tfidf_vec, [[len(input_text), count_sentences(input_text)]]])
                     
                     pred_idx = None
-                    # Predict based on choice
                     if selected_model == "XGBoost":
                         pred_idx = models['xgb_model'].predict(num_feats.toarray())
                     elif selected_model == "Naive Bayes":
@@ -278,7 +255,6 @@ if models:
                     
                     final_label = models['label_encoder'].inverse_transform(pred_idx)[0]
                     
-                    # Display Results for ML
                     st.markdown("---")
                     st.markdown(f"""
                     <div class="prediction-card status-normal">
@@ -287,12 +263,10 @@ if models:
                     </div>
                     """, unsafe_allow_html=True)
                     
-                    # Show TF-IDF Analysis
                     with st.expander("📊 See Keyword Analysis (TF-IDF)"):
                         tfidf_values = tfidf_vec.toarray()[0]
                         feature_names = models['tfidf'].get_feature_names_out()
                         
-                        # Get top words
                         word_scores = {feature_names[i]: tfidf_values[i] for i in range(len(feature_names)) if tfidf_values[i] > 0}
                         sorted_words = dict(sorted(word_scores.items(), key=lambda item: item[1], reverse=True)[:10])
                         
