@@ -178,7 +178,7 @@ if models:
     with col1: 
         if st.button("🙂 Example: Normal"): set_text(example_texts[0])
     with col2: 
-        if st.button("😟 Example: Anxiety"): set_text(example_texts[1])
+        if st.button("😟 Example: Negative"): set_text(example_texts[1])
     with col3: 
         if st.button("🆘 Example: Critical"): set_text(example_texts[2])
 
