@@ -67,7 +67,7 @@ try:
 except Exception as e:
     st.error(f"Error downloading NLTK data: {e}")
 
-LSTM_MAX_LEN = 200 # Sesuaikan dengan maxlen saat training LSTM Anda
+LSTM_MAX_LEN = 200 
 LSTM_LABEL_MAP = {
     0: 'Normal',
     1: 'Depression',
@@ -82,7 +82,6 @@ LSTM_LABEL_MAP = {
 def load_models():
     models = {}
     try:
-        # 1. Load ML Models
         with open('xgboost_model.pkl', 'rb') as f:
             xgb_model = pickle.load(f)
             if not hasattr(xgb_model, 'feature_types'): xgb_model.feature_types = None
@@ -164,23 +163,52 @@ if models:
     st.title("🧠 Sentimind: Mental Health Analyzer")
     st.markdown("#### How are you feeling today? Let's analyze your thoughts.")
 
-    example_texts = [
-        "Everything feels fine, just a normal day with coffee and work.",
-        "I can't sleep at night and my thoughts won't stop racing.",
-        "Sometimes I feel like ending it all. What's the point?",
-    ]
-    
-    col1, col2, col3 = st.columns([1,1,1])
-    if 'user_input' not in st.session_state: st.session_state.user_input = ""
+    examples = {
+        "Normal": [
+            "Everything feels fine, just a normal day with coffee and work.",
+            "I am planning to go to the movies this weekend with my friends.",
+            "The weather is really nice today, maybe I'll go for a jog."
+        ],
+        "Negative": [
+            "I can't sleep at night and my thoughts won't stop racing.",
+            "I feel so overwhelmed with my workload, it's suffocating.",
+            "Nothing seems to make me happy anymore, I'm just tired of everything."
+        ],
+        "Critical": [
+            "Sometimes I feel like ending it all. What's the point?",
+            "I feel like a burden to everyone, the world would be better without me.",
+            "I have been thinking about ways to hurt myself, I can't take this pain."
+        ]
+    }
 
-    def set_text(txt): st.session_state.user_input = txt
-    
-    with col1: 
-        if st.button("🙂 Example: Normal"): set_text(example_texts[0])
-    with col2: 
-        if st.button("😟 Example: Negative"): set_text(example_texts[1])
-    with col3: 
-        if st.button("🆘 Example: Critical"): set_text(example_texts[2])
+    if 'user_input' not in st.session_state: 
+        st.session_state.user_input = ""
+
+    def set_text(txt): 
+        st.session_state.user_input = txt
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+
+    with col1:
+        st.markdown("### 🙂 Normal")
+        for i, text in enumerate(examples["Normal"]):
+            if st.button(f"Option {i+1}", key=f"norm_{i}", help=text):
+                set_text(text)
+
+    with col2:
+        st.markdown("### 😟 Negative")
+        for i, text in enumerate(examples["Negative"]):
+            if st.button(f"Option {i+1}", key=f"neg_{i}", help=text):
+                set_text(text)
+
+    with col3:
+        st.markdown("### 🆘 Critical")
+        for i, text in enumerate(examples["Critical"]):
+            if st.button(f"Option {i+1}", key=f"crit_{i}", help=text):
+                set_text(text)
+
+    st.divider()
+    st.text_area("Input Text:", value=st.session_state.user_input, height=100)
 
     input_text = st.text_area(
         "Enter your text here (English):", 
